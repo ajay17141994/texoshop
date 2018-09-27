@@ -1,0 +1,25 @@
+<html>
+<head>
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+<input type="text" id="input">
+<input type="button" value="click me " id="click">
+</body>
+<script>
+var namearray=[];
+var name;
+$("#click").click(function() {
+    console.log($("input").val());
+    console.log("abhay called");
+    name=$("input").val();
+    namearray.push(name);
+    console.log(namearray);
+});
+</script>
+</html>

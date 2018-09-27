@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>TexoShop
+    </title>
+
+
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous">
+    </script>
+    <!--JQuery css-->
+    <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">-->
+
+
+    <!--Jquery UI js-->
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <!--<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>-->
+
+    <!--JQuery rotatable js and css-->
+    <script src="https://cdn.jsdelivr.net/jquery.ui.rotatable/1.1/jquery.ui.rotatable.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/jquery.ui.rotatable/1.1/jquery.ui.rotatable.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="css/index.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-jcrop/2.0.4/css/Jcrop.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/jquery.jcrop/0.9.12/js/jquery.Jcrop.js"></script>
+    <link rel="stylesheet" href="css/fontselect.css">
+    <script src="js/jquery.fontselect.js"></script>
+    <link rel="stylesheet" href="css/spectrum.css">
+    <script src="js/spectrum.js"></script>
+
+
+
+    <style>
+.menu{
+			width: 100px;
+			background: #000;
+			color: #fff;
+			position:absolute;
+			z-index: 999999;
+			display: none;
+			box-shadow: 0 0 10px #713C3C;
+		}
+		.menu ul{
+			list-style: none;
+			padding: 0;
+			margin:0;
+		}
+		.menu ul a{
+			text-decoration: none;
+		}
+		.menu ul li{
+			width: 88%;
+			padding: 6%;
+			background-color: #F04D44;
+			color: #fff;
+		}
+		.menu ul li:hover{
+			background-color: #F7BA4B;
+	    		color: #444343;
+		}
+
+
+    </style>
+</head>
+
+<body>
+    <!--NAVIGATION BAR GOES HERE........-->
+    <!--NAVIGATION BAR GOES HERE........-->
+    <!--NAVIGATION BAR GOES HERE........-->
+    <nav class="navbar navbar-inverse" style="background-color:#424242;border-radius:0px;">
+        <div class="container-fluid">
+            <div class="navbar-header" style="height:25px;">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>                        
+                </button>
+                <a class="navbar-brand" href="#" style="color:#ffffff;">TexoShop</a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <!--FILE OPTIONS GOES HERE......-->
+                    <!--FILE OPTIONS GOES HERE......-->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#ffffff;">File<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" style="color:#00BF9A;" data-toggle="modal" data-target="#newcanvas">New Canvas</a></li>
+                            <li><a type="file" href="#" style="color:#00BF9A;"id="browseImage" onclick="browseImage(this.id)"><input type="file" id="imageLoader" name="imageLoader"/>Browse Image</a></li>
+                            <hr>
+                            <li><a href="#" style="color:#00BF9A;">Save</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Save As</a></li>
+                            <hr>
+                            <li><a href="#" style="color:#00BF9A;">Exit</a></li>
+                        </ul>
+                    </li>
+                    <!--FILE OPTIONS ENDS HERE......-->
+                    <!--FILE OPTIONS ENDS HERE......-->
+
+                    <!--EDIT OPTIONS GOES HERE......-->
+                    <!--EDIT OPTIONS GOES HERE......-->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#ffffff;">Edit<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" style="color:#00BF9A;" onclick="cUndo()">Undo</a></li>
+                            <li><a href="#" style="color:#00BF9A;" onclick="cRedo()">Redo</a></li>
+                            <hr>
+                            <li><a href="#" style="color:#00BF9A;">Cut</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Copy</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Paste</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Clear</a></li>
+                            <hr>
+                            <li><a href="#" style="color:#00BF9A;">Select all</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Deselect all</a></li>
+                        </ul>
+                    </li>
+                    <!--EDIT OPTIONS ENDS HERE......-->
+                    <!--EDIT OPTIONS ENDS HERE......-->
+
+                    <!--IMAGE OPTIONS GOES HERE......-->
+                    <!--IMAGE OPTIONS GOES HERE......-->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#ffffff;">Image<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" style="color:#00BF9A;" data-toggle="modal" data-target="#newcanvas">Image Size</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Canvas Size</a></li>
+                            <hr>
+                            <li><a href="#" style="color:#00BF9A;" id="RotateCanvas90" >Rotate Canvas 90<sup>0</sup></a></li>
+                            <li><a href="#" style="color:#00BF9A;">Rotate Canvas 90<sup>0</sup>cw</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Rotate Canvas 90<sup>0</sup>ccw</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Flip canvas vertical</a></li>
+                            <hr>
+                            <li><a href="#" style="color:#00BF9A;">Flip canvas horizontal</a></li>
+                        </ul>
+                    </li>
+                    <!--IMAGE OPTIONS ENDS HERE......-->
+                    <!--IMAGE OPTIONS ENDS HERE......-->
+
+                    <!--LAYERS OPTIONS GOES HERE......-->
+                    <!--LAYERS OPTIONS GOES HERE......-->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#ffffff;">Layers<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" style="color:#00BF9A;" data-toggle="modal" data-target="#newcanvas">New layers</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Duplicate layers</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Delete layers</a></li>
+                        </ul>
+                    </li>
+                    <!--LAYERS OPTIONS ENDS HERE......-->
+                    <!--LAYERS OPTIONS ENDS HERE......-->
+
+                    <!--VIEW OPTIONS GOES HERE......-->
+                    <!--VIEW OPTIONS GOES HERE......-->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#ffffff;">View<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" style="color:#00BF9A;" data-toggle="modal" data-target="#newcanvas">Zoom in</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Zoom out</a></li>
+                            <hr>
+                            <li><a href="#" style="color:#00BF9A;" id="navigatorOption" >Navigator</a></li>
+                            <li><a href="#" style="color:#00BF9A;" id="layersOption" >Layers</a></li>
+                            <li><a href="#" style="color:#00BF9A;" id="historyOption" >History</a></li>
+                            <li><a href="#" style="color:#00BF9A;" id="toolbarOptionchoice" >Toolbar options</a></li>
+                            <li><a href="#" style="color:#00BF9A;" id="toolbarOption" >Toolbar</a></li>
+                        </ul>
+                    </li>
+                    <!--VIEW OPTIONS ENDS HERE......-->
+                    <!--VIEW OPTIONS ENDS HERE......-->
+
+                    <!--SHAPES OPTIONS GOES HERE......-->
+                    <!--SHAPES OPTIONS GOES HERE......-->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#ffffff;">Shapes <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" style="color:#00BF9A;">Line</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Circle</a></li>
+                            <li><a href="#" style="color:#00BF9A;" id="rectangle" onclick="rectangle(this.id)">Rectangle</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Ellipse</a></li>
+                        </ul>
+                    </li>
+                    <!--SHAPES OPTIONS ENDS HERE......-->
+                    <!--SHAPES OPTIONS ENDS HERE......-->
+
+                    <!--HELP OPTIONS GOES HERE......-->
+                    <!--HELP OPTIONS GOES HERE......-->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color:#ffffff;">Help<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" style="color:#00BF9A;" data-toggle="modal" data-target="#newcanvas">Help</a></li>
+                            <hr>
+                            <li><a href="#" style="color:#00BF9A;">Blog</a></li>
+                            <li><a href="#" style="color:#00BF9A;">Contact</a></li>
+                        </ul>
+                    </li>
+                    <!--HELP OPTIONS ENDS HERE......-->
+                    <!--HELP OPTIONS ENDS HERE......-->
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user" style="color:#ffffff;"></span> Sign Up</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in" style="color:#ffffff;"></span> Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--NAVIGATION BAR GOES HERE........-->
+    <!--NAVIGATION BAR GOES HERE........-->
+    <!--NAVIGATION BAR GOES HERE........-->
+
+
+    <div class="container-fluid ">
+        <!--BCOB OPTIONS GOES HERE......-->
+        <!--BCOB OPTIONS GOES HERE......-->
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 bcob" id="toolbarOptiondiv">
+                <span id='toolbarOptionclose' class="close">x</span>
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="brightness" style="visibility:visible;">
+                        <label>Brightness</label>
+                        <input type="number" class="form-control" id="brightnesspercentage" min="0" max="100" autocomplete='off' onchange="changeBrightness()"
+                            aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="contrast" style="visibility:visible;">
+                        <label style="text-align:center;text-align:-moz-center;">Contrast</label>
+                        <input type="number" class="form-control" id="contrastpercentage" min="0" max="100" autocomplete='off' onchange="changeContrast()"
+                            aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="opacity" style="visibility:visible;">
+                        <label>Opacity</label>
+                        <input type="number" class="form-control" id="opacitypercentage" min="0" max="100" autocomplete='off' onchange="changeOpacity()"
+                            aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="blur" style="visibility:visible;">
+                        <label>Blur</label>
+                        <input type="number" class="form-control" id="blurpercentage" min="0" max="10000" autocomplete='off' onchange="changeBlur()"
+                            aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="blur" style="visibility:visible;">
+                        <label>Color</label>
+                        <input type="color" class="form-control" id="colorpallet" autocomplete='off' value='#f594d0' aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="canvasWidthinput">
+                        <label></label>
+                        <input type="number" class="form-control" id="canvasWidth" autocomplete='off' value='' aria-describedby="sizing-addon2" readonly>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="canvasHeightinput">
+                        <label></label>
+                        <input type="number" class="form-control" id="canvasHeight" autocomplete='off' value='' aria-describedby="sizing-addon2"
+                            readonly>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="canvasx1">
+                        <label></label>
+                        <input type="number" class="form-control" id="canvascropx1" autocomplete='off' value='' aria-describedby="sizing-addon2"
+                            readonly>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="canvasy1">
+                        <label></label>
+                        <input type="number" class="form-control" id="canvascropy1" autocomplete='off' value='' aria-describedby="sizing-addon2"
+                            readonly>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="canvasx2">
+                        <label></label>
+                        <input type="number" class="form-control" id="canvascropx2" autocomplete='off' value='' aria-describedby="sizing-addon2"
+                            readonly>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="canvasy2">
+                        <label></label>
+                        <input type="number" class="form-control" id="canvascropy2" autocomplete='off' value='' aria-describedby="sizing-addon2"
+                            readonly>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="Fontsizeinput">
+                        <label>Font Size</label>
+                        <span><input type="number" class="form-control" id="fontSize" style="width:50%" autocomplete='off'  aria-describedby="sizing-addon2">
+                            <select id="size" style="background-color:#000;">
+                                <option value="2">2</option>
+                                <option value="4">4</option>
+                                <option value="6">6</option>
+                                <option value="8">8</option>
+                                <option value="10">10</option>
+                                <option value="12">12</option>
+                                <option value="14">14</option>
+                                <option value="16">16</option>
+                                <option value="18">18</option>
+                                <option value="20">20</option>
+                                <option value="22">22</option>
+                                <option value="24">24</option>
+                                <option value="26">26</option>
+                                <option value="28">28</option>
+                                <option value="30">30</option>
+                                <option value="32">32</option>
+                            </select></span>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="Fontinput">
+                        <label>Font</label>
+                        <input type="text" class="form-control" id="font" autocomplete='off'  aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="gridinput">
+                        <label>Grid</label>
+                        <input type="checkbox" class="form-control" id="grid" autocomplete='off'  aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+            <!--<div class="col-sm-12 col-md-12 col-lg-12">
+
+            </div>-->
+
+            </div>
+
+        </div>
+        <!--BCOB OPTIONS ENDS HERE......-->
+        <!--BCOB OPTIONS ENDS HERE......-->
+
+
+        <div class="row" style="margin-top:5px;">
+            <!--TOOLBAR OPTIONS GOES HERE......-->
+            <!--TOOLBAR OPTIONS GOES HERE......-->
+            
+            <div class="col-sm-1 col-md-1 col-lg-1 toolbar" >
+                <li class="list-group-item" id="movetool" title="Move tool" data-toggle="tooltip" data-placement="right" onclick="movetool()"><img class="img-responsive" src="images/arrows-move-tool.svg" style="height:20px;"></li>
+                <li class="list-group-item" id="croptool" title="Crop tool" data-toggle="tooltip" data-placement="right" onclick="crop()"><img class="img-responsive" src="images/crop-symbol.svg" style="height:20px;"></li>
+                <li class="list-group-item" id="selectiontool" title="Selection tool" data-toggle="tooltip" data-placement="right"><img class="img-responsive" src="images/selection-square.svg" style="height:20px;"></li>
+                <!--<li class="list-group-item" id="dropper" title="Eye dropper tool" data-toggle="tooltip" data-placement="right"><img class="img-responsive" src="images/dropper.svg" style="height:20px;"></li>-->
+                <li class="list-group-item" id="paintbrush" title="Paint tool" data-toggle="tooltip" data-placement="right" onclick="paintBrushTool(this.id)" ><img class="img-responsive" src="images/artistic-brush.svg" style="height:20px;"></li>
+                 <li class="list-group-item" id="pencil" title="Pencil tool"  data-toggle="tooltip" onclick="init(this.id)" data-placement="right"><img class="img-responsive" src="images/edit.svg" style="height:20px;"></li>
+                <li class="list-group-item" id="eraser" title="Eraser" data-toggle="tooltip" data-placement="right" onclick="init(this.id)" ><img class="img-responsive" src="images/erase.svg" style="height:20px;"></li>
+                <li class="list-group-item" id="paintbucket" title="Fill color" data-toggle="tooltip" data-placement="right" onclick="paintBucketTool(this.id)"><img class="img-responsive" src="images/paint-bucket.svg" style="height:20px;"></li>
+                <li class="list-group-item" id="text" title="Text Box" data-toggle="tooltip" data-placement="right" onclick="textTool(this.id)"><img class="img-responsive" src="images/text.svg" style="height:20px;"></li>
+                <li class="list-group-item" id="foreground" title="color tool" data-toggle="tooltip" data-placement="right" ><input type="color" class="form-control" id="foreground_color" autocomplete='off' value='#c3ff00' aria-describedby="sizing-addon2"></li>
+            </div>
+            <!--TOOLBAR OPTIONS ENDS HERE......-->
+            <!--TOOLBAR OPTIONS ENDS HERE......-->
+
+            <!--DRAWINGCANVAS OPTIONS GOES HERE......-->
+            <!--DRAWINGCANVAS OPTIONS GOES HERE......-->
+            <div class="col-sm-9 col-md-9 col-lg-9 container" id="drawingCanvas">
+                <!--<div class="col-sm-12 col-md-12 col-lg-12">
+
+                    </div>-->
+            </div>
+            <!--DRAWINGCANVAS OPTIONS ENDS HERE......-->
+            <!--DRAWINGCANVAS OPTIONS ENDS HERE......-->
+
+            <!--SIDEBAR OPTIONS GOES HERE......-->
+            <!--SIDEBAR OPTIONS GOES HERE......-->
+            <div class="col-sm-2 col-md-2 col-lg-2 sidebar">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12 history" id="history">
+                        <div class="col-sm-12 col-md-12 col-lg-12" style="padding-right:0px;background-color:black;text-align:center;text-align:-moz-center;text-align:-webkit-center;">
+                             History 
+                            <span id='historyClose' class="close">x</span>
+                            <span id='historyMin' class="close" >-</span>
+                        </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12" id="historydiv" style="overflow-x:hidden;">
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12 layers" id="layers">
+                        <!--<div class="row">-->
+                            <div class="col-sm-12 col-md-12 col-lg-12" style="padding-right:0px;background-color:black;text-align:center;text-align:-moz-center;text-align:-webkit-center;">
+                                Layers
+                                <span id='layersClose' class="close">x</span>
+                                <span id='layersMin' class="close">-</span>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12" id="layersdiv" style="overflow-x:hidden;">
+                            </div>
+                        <!--</div>-->
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12 navigator" id="navigator">
+                                    <div class="col-sm-12 col-md-12 col-lg-12" style="padding-right:0px;background-color:black;text-align:center;text-align:-moz-center;text-align:-webkit-center;">
+                                        Navigator
+                                        <span id='navigatorClose' class="close">x</span>
+                                        <span id='navigatorMin' class="close">-</span>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12" id="navigatordiv" style="overflow-x:hidden;">
+                                        <div class="col-sm-12 col-md-12 col-lg-6">
+                                            <div class="input-group" id="mouseX">
+                                                <label>Mouse X</label>
+                                                <input type="number" class="form-control" id="mouseXvalue" autocomplete='off' value='' aria-describedby="sizing-addon2" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12 col-lg-6">
+                                            <div class="input-group" id="mouseY">
+                                                <label>Mouse Y</label>
+                                                <input type="number" class="form-control" id="mouseYvalue" autocomplete='off' value='' aria-describedby="sizing-addon2" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12 col-lg-3" style="padding-right:0px;">
+                                            <div class="input-group" id="red">
+                                                <label>R</label>
+                                                <input type="number" class="form-control" id="redValue" autocomplete='off' value='' aria-describedby="sizing-addon2" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12 col-lg-3" style="padding-right:0px;">
+                                            <div class="input-group" id="green">
+                                                <label>G</label>
+                                                <input type="number" class="form-control" id="greenValue" autocomplete='off' value='' aria-describedby="sizing-addon2" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12 col-lg-3" style="padding-right:0px;">
+                                            <div class="input-group" id="blue">
+                                                <label>B</label>
+                                                <input type="number" class="form-control" id="blueValue" autocomplete='off' value='' aria-describedby="sizing-addon2" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12 col-lg-3" style="padding-right:0px;">
+                                            <div class="input-group" id="alpha">
+                                                <label>Alpha</label>
+                                                <input type="number" class="form-control" id="alphaValue" autocomplete='off' value='' aria-describedby="sizing-addon2" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12 col-lg-12" style="padding-top:5px;">
+                                            <div class="input-group" id="hex">
+                                                <!--<label>Hex Value</label>-->
+                                                <input type="text" class="form-control" id="hexValue" autocomplete='off' value='' aria-describedby="sizing-addon2" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12 col-lg-6" >
+                                            <div class="input-group" id="clickedPixelX">
+                                                <label>Canvas Pixel X</label>
+                                                <input type="number" class="form-control" id="clickedPixelValuex" autocomplete='off' value='' aria-describedby="sizing-addon2" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-12 col-md-12 col-lg-6" >
+                                            <div class="input-group" id="clickedPixelY">
+                                                <label>Canvas Pixel Y</label>
+                                                <input type="number" class="form-control" id="clickedPixelValuey" autocomplete='off' value='' aria-describedby="sizing-addon2" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                    </div>
+                </div>
+            </div>
+            <!--SIDEBAR OPTIONS ENDS HERE......-->
+            <!--SIDEBAR OPTIONS ENDS HERE......-->
+        </div>
+
+
+        <!--MODAL FOR NEW MENU OPTONS GOES HERE..................-->
+        <!--MODAL FOR NEW MENU OPTONS GOES HERE..................-->
+        <!--MODAL FOR NEW MENU OPTONS GOES HERE..................-->
+
+        <div class="modal fade" id="newcanvas" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding:5px;background-color:black;color:white;">
+                        <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+                        <h4 class="modal-title">New Canvas</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-7">
+                                <div class="input-group" style="visibility:visible;">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" id="name" autocomplete='off' value="Untitled" aria-describedby="sizing-addon2">
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-5">
+                                <div class="input-group" style="visibility:visible;">
+                                    <label>Background Color</label>
+                                    <input type="color" class="form-control" id="color" autocomplete='off' value='#f594d0' aria-describedby="sizing-addon2">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 col-lg-6">
+                                <div class="input-group" style="visibility:visible;">
+                                    <label>Width</label>
+                                    <input type="number" class="form-control" id="width" autocomplete='off' min="0" max="4000" aria-describedby="sizing-addon2">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-12 col-lg-6">
+                                <div class="input-group" style="visibility:visible;">
+                                    <label>Height</label>
+                                    <input type="number" class="form-control" id="height" autocomplete='off' min="0" max="4000" aria-describedby="sizing-addon2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="padding:5px;background-color:black;">
+                        <button type="button" id="ok" class="btn btn-default" onclick="NewCanvas(this.id)" data-dismiss="modal">OK</button>
+                        <button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--MODAL FOR NEW MENU OPTONS ENDS HERE..................-->
+        <!--MODAL FOR NEW MENU OPTONS ENDS HERE..................-->
+        <!--MODAL FOR NEW MENU OPTONS ENDS HERE..................-->
+
+<nav class="navbar-bottom">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 pixelmanipulation">
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="Pixel_X">
+                        <label>Pixel X</label>
+                        <input type="number" class="form-control" id="PixelX" autocomplete='off' value="1" aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="Pixel_Y">
+                        <label>Pixel Y</label>
+                        <input type="number" class="form-control" id="PixelY" autocomplete='off' value="1" aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="Pixel_Width">
+                        <label>Pixel Width</label>
+                        <input type="number" class="form-control" id="PixelWidth" autocomplete='off' value="1" aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="Pixel_Height">
+                        <label>Pixel Height</label>
+                        <input type="number" class="form-control" id="PixelHeight" autocomplete='off' value="1" aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="Pixel_R_Val">
+                        <label>Pixel R Val</label>
+                        <input type="number" class="form-control" id="PixelRVal" autocomplete='off' value="1" aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="Pixel_G_Val">
+                        <label>Pixel G Val</label>
+                        <input type="number" class="form-control" id="PixelGVal" autocomplete='off' value="1" aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="Pixel_B_Val">
+                        <label>Pixel B Val</label>
+                        <input type="number" class="form-control" id="PixelBVal" autocomplete='off' value="1" aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+
+                <div class="col-sm-12 col-md-12 col-lg-1">
+                    <div class="input-group" id="c_name">
+                        <label>Name</label>
+                        <input type="text" class="form-control" id="color_name" autocomplete='off' value="" aria-describedby="sizing-addon2">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1" style="padding-top:20px;">
+                    <div class="input-group" id="apply">
+                        <!--<label>Apply</label>-->
+                        <img src="images/check-mark.svg" class="applyChange" id="apply" onclick="manipulatePixel(this.id)" style="height:10px;cursor: pointer;padding-right:50px;">
+                        <img src="images/cancel-mark.svg" class="applyChange" id="discard" style="height:10px;cursor: pointer;">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1" style="padding-top:20px;">
+                    <div class="input-group" id="zoom_out">
+                        <label>Zoom Out</label>
+                        <img src="images/zoom-out.svg" class="decrease" style="height:18px;">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-1" style="padding-top:20px;">
+                    <div class="input-group" id="zoom_in">
+                        <label>Zoom In</label>
+                        <img src="images/zoom-in.svg" class="increase" style="height:18px;">
+                    </div>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+
+        <div class="menu">
+            <ul>
+            <a href="#" id="crop"><li>Crop</li></a>
+            </ul>
+        </div>
+    </div>
+<!--END OF HTML LAYOUT PART.......-->
+
+    <script>
+        $("#RotateCanvas90").click(function(){
+            $("#canvas").css({'-moz-transform':'rotate(90deg)',
+        '-webkit-transform':'rotate(90deg)',
+        '-o-transform':'rotate(90deg)',
+        '-ms-transform':'rotate(90deg)',
+        'transform':'rotate(90deg)'})
+    })
+    
+        $("#historyMin").click(function(){
+    if($(this).html() == "-"){
+        $(this).html("+");
+    }
+    else{
+        $(this).html("-");
+    }
+    $("#historydiv").slideToggle();
+});
+
+    $("#layersMin").click(function(){
+    if($(this).html() == "-"){
+        $(this).html("+");
+    }
+    else{
+        $(this).html("-");
+    }
+    $("#layersdiv").slideToggle();
+});
+
+    $("#navigatorMin").click(function(){
+    if($(this).html() == "-"){
+        $(this).html("+");
+    }
+    else{
+        $(this).html("-");
+    }
+    $("#navigatordiv").slideToggle();
+});
+
+    </script>
+        <script src="js/onload.js"></script>
+        <script src="js/hideandseek.js"></script>
+        <script src="js/browseimage.js"></script>
+        <script src="js/newCanvas.js"></script>
+        <script src="js/mousePosition.js"></script>
+        <script src="js/gridCreation.js"></script>
+        <script src="js/RGBtoHEX.js"></script>
+        <script src="js/selectPixel.js"></script>
+        <script src="js/zoominout.js"></script>
+        <script src="js/moveTool.js"></script>
+        <script src="js/cropTool.js"></script>
+        <script src="js/paintBrushTool.js"></script>
+        <script src="js/paintBucket.js"></script>
+        <script src="js/textTool.js"></script>
+        <script src="js/history.js"></script>
+        <script src="js/layers.js"></script>
+        <script src="js/pencilAndEraser.js"></script>
+</body>
+</html>

@@ -1,0 +1,591 @@
+<html>
+    <head>
+        <title>Image Editor</title>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+
+        <script src="spectrum.js"></script>
+        <link href="spectrum.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="jquery.Jcrop.css">
+        <!--<script src="jquery.min.js"></script>-->
+        <script src="jquery.Jcrop.js"></script>
+
+        <style>
+            body{
+                background-color: #EEEEEE;
+            }
+
+            .gridlines 
+            { 
+              display: none;
+              position:absolute; 
+              background-color:#ccc; 
+            }
+            .menu
+            {
+                width: 150px;
+                box-shadow: 3px 3px 5px #888888;
+                border-style: solid;
+                border-width: 1px;
+                border-color: grey;
+                border-radius: 2px;
+                padding-left: 5px;
+                padding-right: 5px;
+                padding-top: 3px;
+                padding-bottom: 3px;
+                position: fixed;
+                display: none;
+            }
+          
+            .menu-item
+            {
+                height: 20px;
+            }
+          
+            .menu-item:hover
+            {
+                background-color: #6CB5FF;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+<body>
+    <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>                        
+        </button>
+        <a class="navbar-brand" href="#" style="color:white;">imageZila</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="#" style="color:white;" data-toggle="modal" data-target="#myModal">New</a></li>
+            <li class="dropdown">
+            <a class="dropdown-toggle"  style="color:white;" data-toggle="dropdown" href="#">crop option <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                <li id="blur" onclick="crop()"><a href="#">crop</a></li>
+                <li><a href="#" onclick="browseImage()"><input type="file" id="imageLoader" name="imageLoader"/></a></li>
+                <!--<li id="contrast" onclick="changeFilter(this.id)"><a href="#">Contrast</a></li>-->
+                <!--<li id="grayscale(100%)" onclick="changeFilter(this.id)"><a href="#">Grayscale</a></li>-->
+                <!--<li id="hue-rotate(90deg)" onclick="changeFilter(this.id)"><a href="#">Hue-rotate</a></li>-->
+                <!--<li id="invert(100%)" onclick="changeFilter(this.id)"><a href="#">Invert</a></li>-->
+                <!--<li id="opacity(30%)" onclick="changeFilter(this.id)"><a href="#">Opacity</a></li>-->
+                <!--<li id="saturate(8)" onclick="changeFilter(this.id)"><a href="#">Saturate</a></li>-->
+                <!--<li id="sepia(100%)" onclick="changeFilter(this.id)"><a href="#">Sepia</a></li>-->
+                <!--<li id="none" onclick="changeFilter(this.id)"><a href="#">None</a></li>-->
+            </ul>
+            </li>
+            <li><a href="#" style="color:white;">Page 2</a></li>
+            <li><a href="#" style="color:white;">Page 3</a></li>
+            <li><a href="#" style="color:white;"><input type='color' id="basic" class='basic' value='#f594d0' / onchange="changeColor()"></a></li>
+        </ul>
+        </div>
+    </div>
+    </nav>
+
+
+    <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:#EEEEEE;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">New</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form-inline" action="" style="padding-top:15px;padding-left:40px;">
+                <div class="form-group">
+                <label for="width">Width:</label>
+                <input type="width" class="form-control" id="width" placeholder="Enter width in pixel" name="width">
+                </div>
+                <div class="form-group">
+                <label for=height>Height:</label>
+                <input type="height" class="form-control" id="height" placeholder="Enter height in pixels" name="height">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer" style="background-color:#EEEEEE;">
+          <button type="submit" class="btn btn-default" onclick="NewCanvas()"  data-dismiss="modal">OK</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+        <div class="menu">
+            <div class="menu-item">Crop</div>
+        </div>
+
+<div class="row" style="margin-right:2px;margin-left:2px;">
+    <div class="col-sm-12 col-md-12 col-lg-1" id="tools" style="box-shadow:10px 10px 5px #888888;height:500px;background-color:aliceblue;">
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-9" id="NewCanvas" style="text-align: -moz-center;overflow-x: scroll;box-shadow:10px 10px 5px #888888;height:500px;background-color:white;">
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-2" id="history" style="overflow-y: scroll;box-shadow:10px 10px 5px #888888;height:500px;background-color:aliceblue;">
+    </div>
+</div>
+
+
+<div class="row" style="margin-right:2px;margin-left:2px;">
+
+    <div class="col-sm-12 col-md-12 col-lg-12" id="NewCanvas" style="box-shadow:10px 10px 5px #888888;height:80px;background-color:white;padding-top:3px;">
+        <!--<h4><b>Effects</b></h4>-->
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-3">
+                    <div class="input-group" id="brightness" style="visibility:visible;">
+                        <input type="number" class="form-control" id="brightnesspercentage" min="0" max="100" autocomplete='off'  onchange="changeBrightness()" placeholder="% brightness value" aria-describedby="sizing-addon2" disabled>
+                        <span class="input-group-addon" id="sizing-addon2" style="background-color:blue;color:white;">%</span>
+                    </div>
+                    <div class="input-group" id="top" style="visibility:visible;">
+                         <span class="input-group-addon " id="sizing-addon2" style="background-color:blue;color:white;"><i class="glyphicon glyphicon-scissors"></i></span>
+                        <input type="number" class="form-control" id="toppercentage"  autocomplete='off'  placeholder="% top value" aria-describedby="sizing-addon2" readonly>
+                        <span class="input-group-addon " id="sizing-addon2" style="background-color:blue;color:white;">px</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-3">
+                    <div class="input-group" id="contrast" style="visibility:visible;">
+                        <input type="number" class="form-control" id="contrastpercentage" min="0" max="100" autocomplete='off' onchange="changeContrast()" placeholder="% contrast value" aria-describedby="sizing-addon2" disabled>
+                        <span class="input-group-addon" id="sizing-addon2" style="background-color:green;color:white;">%</span>
+                    </div>
+                    <div class="input-group" id="right" style="visibility:visible;">
+                         <span class="input-group-addon " id="sizing-addon2" style="background-color:green;color:white;"><i class="glyphicon glyphicon-scissors"></i></span>
+                        <input type="number" class="form-control" id="rightpercentage"  autocomplete='off'  placeholder="% right value" aria-describedby="sizing-addon2" readonly>
+                        <span class="input-group-addon " id="sizing-addon2" style="background-color:green;color:white;">px</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-3">
+                    <div class="input-group" id="opacity" style="visibility:visible;">
+                        <input type="number" class="form-control" id="opacitypercentage" min="0" max="100" autocomplete='off' onchange="changeOpacity()" placeholder="% opacity value" aria-describedby="sizing-addon2" disabled>
+                        <span class="input-group-addon" id="sizing-addon2" style="background-color:purple;color:white;">%</span>
+                    </div>
+                    <div class="input-group" id="bottom" style="visibility:visible;">
+                         <span class="input-group-addon " id="sizing-addon2" style="background-color:purple;color:white;"><i class="glyphicon glyphicon-scissors"></i></span>
+                        <input type="number" class="form-control" id="bottompercentage"  autocomplete='off'  placeholder="% bottom value" aria-describedby="sizing-addon2" readonly>
+                        <span class="input-group-addon " id="sizing-addon2" style="background-color:purple;color:white;">px</span>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg-3">
+                    <div class="input-group" id="blur" style="visibility:visible;">
+                        <input type="number" class="form-control" id="blurpercentage" min="0" max="10000"  autocomplete='off' onchange="changeBlur()" placeholder="px blur value" aria-describedby="sizing-addon2"  disabled>
+                        <span class="input-group-addon" id="sizing-addon2" style="background-color:orange;color:white;">px</span>
+                    </div>
+                    <div class="input-group" id="left" style="visibility:visible;">
+                        <span class="input-group-addon " id="sizing-addon2" style="background-color:orange;color:white;"><i class="glyphicon glyphicon-scissors"></i></span>
+                        <input type="number" class="form-control" id="leftpercentage"  autocomplete='off'  placeholder="% left value" aria-describedby="sizing-addon2" readonly>
+                        <span class="input-group-addon " id="sizing-addon2" style="background-color:orange;color:white;">px</span>
+                        <span class="input-group-addon " id="sizing-addon2" onclick="clip()" style="background-color:yellowgreen;color:white;">Crop</span>
+                    </div>
+                </div>
+            </div>
+    
+    </div>
+    
+</div>
+
+
+<script>
+
+function createGrid(size) {
+    var i, 
+        height = $(window).height(),
+        width = $(window).width(),
+        ratioW = Math.floor(width/size),	
+        ratioH = Math.floor(height/size); 
+    
+		for (i=0; i<= ratioW; i++)  // vertical grid lines
+			$('<div />').css({
+                'top': 1, 
+                'left': i * size, 
+                'width': 1, 
+                'height': height })
+            .addClass('gridlines')
+            .appendTo('#NewCanvas');
+		
+		for (i=0; i<= ratioH; i++) // horizontal grid lines
+			$('<div />').css({
+                'top': 1 + i * size, 
+                'left': 0, 
+                'width': width, 
+                'height': 1 })
+            .addClass('gridlines')
+            .appendTo('#NewCanvas');
+
+		$('.gridlines').show();
+}
+
+createGrid(5);
+function NewCanvas() 
+{ $("#NewCanvas").empty();
+    var div = document.createElement("canvas");
+    div.id="canvas";
+    div.className ="col-sm-12 col-md-12 col-lg-12 main";
+    div.style.width = document.getElementById("width").value +"px";
+    div.style.height = document.getElementById("height").value +"px";
+    div.style.background =document.getElementById("basic").value;
+    div.style.color = "white";
+    div.style.overflowX="scroll";
+    div.style.overflowY="scroll";
+    document.getElementById("NewCanvas").append(div);
+    // $("#NewCanvas").appendChild('<div class="row"><div class="col-sm-12 col-md-12 col-lg-12" style="width:'+document.getElementById("width").value +"px"+';height='+ document.getElementById("height").value +"px"+';overflow-x:scroll;overflow-y:scroll;"><div></div>')
+    brightnesspercentage.removeAttribute('disabled');
+    contrastpercentage.removeAttribute('disabled');
+    opacitypercentage.removeAttribute('disabled');
+    blurpercentage.removeAttribute('disabled');
+    grid();
+}   
+function grid()
+{ 
+    $(function () {
+  var canvas = $('canvas.main').get(0)
+  var canvasContext = canvas.getContext('2d')
+
+  var ratio = 1
+  var vpx = 0
+  var vpy = 0
+  var vpw = window.innerWidth
+  var vph = window.innerHeight
+
+  var orig_width = 4000
+  var orig_height = 4000
+
+  var width = 4000
+  var height = 4000
+
+  $(window).on('resize', function () {
+    $(canvas).prop({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    })
+  }).trigger('resize')
+
+  $(canvas).on('wheel', function (ev) {
+    ev.preventDefault() // for stackoverflow
+
+    var step
+
+    if (ev.originalEvent.wheelDelta) {
+      step = (ev.originalEvent.wheelDelta > 0) ? 0.05 : -0.05
+    }
+
+    if (ev.originalEvent.deltaY) {
+      step = (ev.originalEvent.deltaY > 0) ? 0.05 : -0.05
+    }
+
+    if (!step) return false // yea..
+
+    var new_ratio = ratio + step
+    var min_ratio = Math.max(vpw / orig_width, vph / orig_height)
+    var max_ratio = 3.0
+
+    if (new_ratio < min_ratio) {
+      new_ratio = min_ratio
+    }
+
+    if (new_ratio > max_ratio) {
+      new_ratio = max_ratio
+    }
+
+    // zoom center point
+    var targetX = ev.originalEvent.clientX || (vpw / 2)
+    var targetY = ev.originalEvent.clientY || (vph / 2)
+
+    // percentages from side
+    var pX = ((vpx * -1) + targetX) * 100 / width
+    var pY = ((vpy * -1) + targetY) * 100 / height
+
+    // update ratio and dimentsions
+    ratio = new_ratio
+    width = orig_width * new_ratio
+    height = orig_height * new_ratio
+
+    // translate view back to center point
+    var x = ((width * pX / 100) - targetX)
+    var y = ((height * pY / 100) - targetY)
+
+    // don't let viewport go over edges
+    if (x < 0) {
+      x = 0
+    }
+
+    if (x + vpw > width) {
+      x = width - vpw
+    }
+
+    if (y < 0) {
+      y = 0
+    }
+
+    if (y + vph > height) {
+      y = height - vph
+    }
+
+    vpx = x * -1
+    vpy = y * -1
+  })
+
+  var is_down, is_drag, last_drag
+
+  $(canvas).on('mousedown', function (ev) {
+    is_down = true
+    is_drag = false
+    last_drag = { x: ev.clientX, y: ev.clientY }
+  })
+
+  $(canvas).on('mousemove', function (ev) {
+    is_drag = true
+
+    if (is_down) {
+      var x = vpx - (last_drag.x - ev.clientX)
+      var y = vpy - (last_drag.y - ev.clientY)
+
+      if (x <= 0 && vpw < x + width) {
+        vpx = x
+      }
+
+      if (y <= 0 && vph < y + height) {
+        vpy = y
+      }
+
+      last_drag = { x: ev.clientX, y: ev.clientY }
+    }
+  })
+
+  $(canvas).on('mouseup', function (ev) {
+    is_down = false
+    last_drag = null
+
+    var was_click = !is_drag
+    is_drag = false
+
+    if (was_click) {
+
+    }
+  })
+
+  //$(canvas).css({ position: 'absolute', top: 0, left: 0 }).appendTo(document.body)
+
+  function animate () {
+    window.requestAnimationFrame(animate)
+
+    canvasContext.clearRect(0, 0, canvas.width, canvas.height)
+
+    canvasContext.lineWidth = 1
+    canvasContext.strokeStyle = '#ccc'
+
+    var step = 100 * ratio
+
+    for (var x = vpx; x < width + vpx; x += step) {
+      canvasContext.beginPath()
+      canvasContext.moveTo(x, vpy)
+      canvasContext.lineTo(x, vpy + height)
+      canvasContext.stroke()
+    }
+    for (var y = vpy; y < height + vpy; y += step) {
+      canvasContext.beginPath()
+      canvasContext.moveTo(vpx, y)
+      canvasContext.lineTo(vpx + width, y)
+      canvasContext.stroke()
+    }
+
+    canvasContext.strokeRect(vpx, vpy, width, height)
+
+    canvasContext.beginPath()
+    canvasContext.moveTo(vpx, vpy)
+    canvasContext.lineTo(vpx + width, vpy + height)
+    canvasContext.stroke()
+
+    canvasContext.beginPath()
+    canvasContext.moveTo(vpx + width, vpy)
+    canvasContext.lineTo(vpx, vpy + height)
+    canvasContext.stroke()
+
+    canvasContext.restore()
+  }
+
+  animate()
+})
+
+function createGrid(size) {
+    var i, 
+        height = $(window).height(),
+        width = $(window).width(),
+        ratioW = Math.floor(width/size),	
+        ratioH = Math.floor(height/size); 
+    
+		for (i=0; i<= ratioW; i++)  // vertical grid lines
+			$('<div />').css({
+                'top': 1, 
+                'left': i * size, 
+                'width': 1, 
+                'height': height })
+            .addClass('gridlines')
+            .appendTo('#NewCanvas');
+		
+		for (i=0; i<= ratioH; i++) // horizontal grid lines
+			$('<div />').css({
+                'top': 1 + i * size, 
+                'left': 0, 
+                'width': width, 
+                'height': 1 })
+            .addClass('gridlines')
+            .appendTo('#NewCanvas');
+
+		$('.gridlines').show();
+}
+
+createGrid(5);
+}
+        function changeColor()
+        {
+            var color = document.getElementById("basic").value;
+            document.getElementById("canvas").style.backgroundColor=color;
+        }
+
+        function range()
+        {
+            var value=document.getElementById("range").value;
+            document.getElementById("canvas").style.filter="blur("+value+"px)";
+
+        }
+
+        function changeBrightness()
+        {
+            var value=document.getElementById("brightnesspercentage").value;
+            document.getElementById("canvas").style.filter="brightness("+value+"%)";
+
+        }
+
+        function changeContrast()
+        {
+            var value=document.getElementById("contrastpercentage").value;
+            document.getElementById("canvas").style.filter="contrast("+value+"%)";
+        }
+        function changeOpacity()
+        {
+            var value=document.getElementById("opacitypercentage").value;
+            document.getElementById("canvas").style.filter="opacity("+value+"%)";  
+        }
+        function changeBlur()
+        {
+            var value=document.getElementById("blurpercentage").value;
+            document.getElementById("canvas").style.filter="blur("+value+"px)";  
+
+        }
+
+
+        function crop()
+        {
+
+
+          //$('#canvas').Jcrop();
+          jQuery(function($){
+
+    var jcrop_api;
+
+    $('#canvas').Jcrop({
+      onChange:   showCoords,
+      onSelect:   showCoords,
+      onRelease:  clearCoords
+    },function(){
+      jcrop_api = this;
+    });
+  });
+
+  // Simple event handler, called from onChange and onSelect
+  // event handlers, as per the Jcrop invocation above
+  function showCoords(c)
+  {
+    $('#leftpercentage').val(c.x);
+    $('#toppercentage').val(c.y);
+    $('#rightpercentage').val(c.x2);
+    $('#bottompercentage').val(c.y2);
+  };
+
+  function clearCoords()
+  {
+   //$('#coords input').val('');
+  };
+
+        }
+        function clip()
+        {
+          var top=$("#toppercentage").val()+"px";
+          console.log(top);
+          var bottom=$("#bottompercentage").val()+"px";
+          console.log(bottom);
+          var right=$("#rightpercentage").val()+"px";
+          console.log(right);
+          var left=$("#leftpercentage").val()+"px";
+          console.log(left);
+         $("#canvas").css('clip','rect('+top+", "+right+", "+bottom+", "+left+')');
+          //console.log( $("#canvas").css);
+        $(".jcrop-holder").css("background-color", "transparent");
+        }
+
+    
+
+$("#picker").spectrum({
+    color: tinycolor,
+    flat: bool,
+    showInput: bool,
+    showInitial: bool,
+    showAlpha: bool,
+    disabled: bool,
+    localStorageKey: string,
+    showPalette: bool,
+    showPaletteOnly: bool,
+    showSelectionPalette: bool,
+    clickoutFiresChange: bool,
+    cancelText: string,
+    chooseText: string,
+    className: string,
+    preferredFormat: string,
+    maxSelectionSize: int,
+    palette: [[string]],
+    selectionPalette: [string]
+});
+
+    function browseImage()
+    { console.log("browse");
+      $("#NewCanvas").empty();
+    var div = document.createElement("canvas");
+    div.id="canvas";
+    // div.className ="col-sm-12 col-md-12 col-lg-12 main";
+    document.getElementById("NewCanvas").append(div);
+    var imageLoader = document.getElementById('imageLoader');
+        imageLoader.addEventListener('change', handleImage, false);
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+
+
+        function handleImage(e){
+            var reader = new FileReader();
+            reader.onload = function(event){
+                var img = new Image();
+                img.onload = function(){
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img,0,0);
+                }
+                img.src = event.target.result;
+            }
+            reader.readAsDataURL(e.target.files[0]);     
+        }
+        grid();
+    }
+</script>
+
+</body>
+</html>

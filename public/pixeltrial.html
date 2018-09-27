@@ -1,0 +1,209 @@
+<html>
+<head>   <link rel="stylesheet" href="jcolor-picker.css">
+        <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+      <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+     
+        <script src="jcolor-picker.min.js"></script>
+        <!--<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>-->
+<style>
+canvas
+{
+    border:2px dotted black;
+}
+.jcolor-picker{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background: #383838;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  /*width:50px;*/
+}
+            #my-color-picker-1{
+                /*margin: auto;*/
+                width: 30px;
+            }
+
+            #my-color-picker-2{
+                float: right;
+                width: 30px;
+            }
+</style>
+</head>
+<body><div id="my-color-picker"></div>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-6">
+        <canvas id="myCanvas" width="350" height="350">
+            Upgrade Browser
+        </canvas>
+    </div>
+    <div class="col-sm-12 col-md-12 col-lg-6">
+        <img src="images/chk.jpg" id="img" height="350px;">
+    </div>
+    
+</div>
+    <div class="row">
+        <div class="col-sm-12 col-d-12 col-lg-1">
+            <label>xValue</label>
+            <input type="number" class="form-control" id="xValue" value="10" autocomplete='off' value='' aria-describedby="sizing-addon2" >
+        </div>
+        <div class="col-sm-12 col-d-12 col-lg-1">
+            <label>yValue</label>
+            <input type="number" class="form-control" id="yValue" value="10" autocomplete='off' value='' aria-describedby="sizing-addon2" >
+        </div>
+        <div class="col-sm-12 col-d-12 col-lg-1">
+            <label>wValue</label>
+            <input type="number" class="form-control" id="wValue" value="10" autocomplete='off' value='' aria-describedby="sizing-addon2" >
+        </div>
+        <div class="col-sm-12 col-d-12 col-lg-1">
+            <label>hValue</label>
+            <input type="number" class="form-control" id="hValue" value="10" autocomplete='off' value='' aria-describedby="sizing-addon2" >
+        </div>
+        <div class="col-sm-12 col-d-12 col-lg-1">
+            <label>RValue</label>
+            <input type="number" class="form-control" id="RValue" value="10" autocomplete='off' value='' aria-describedby="sizing-addon2" >
+        </div>
+        <div class="col-sm-12 col-d-12 col-lg-1">
+            <label>GValue</label>
+            <input type="number" class="form-control" id="GValue" value="10" autocomplete='off' value='' aria-describedby="sizing-addon2" >
+        </div>
+        <div class="col-sm-12 col-d-12 col-lg-1">
+            <label>BValue</label>
+            <input type="number" class="form-control" id="BValue" value="10" autocomplete='off' value='' aria-describedby="sizing-addon2" >
+        </div>
+        <!--<div class="col-sm-12 col-d-12 col-lg-1">
+            <label>Hex</label>
+            <input type="text" class="form-control" id="HEXValue" value="10" autocomplete='off' value='' aria-describedby="sizing-addon2" >
+        </div>-->
+    <button type="button" class="btn btn-default" id="button" onclick="magic()">click me </button>
+    </div>
+
+</body>
+<script>
+    function magic()
+    {
+    //window.onload = canvas;
+    var xValue=document.getElementById("xValue").value;
+    var yValue=document.getElementById("yValue").value;
+    var wValue=document.getElementById("wValue").value;
+    var hValue=document.getElementById("hValue").value;
+    canvas();
+        function canvas()
+        {
+            var myCanvas = document.getElementById("myCanvas");
+        
+            if( myCanvas && myCanvas.getContext("2d") ) 
+            {
+                var context= myCanvas.getContext("2d");
+                var imgSrc= document.getElementById("img");
+                context.drawImage(imgSrc, 0, 0,  context.canvas.width,  context.canvas.height);
+                var image= context.getImageData(0, 0, context.canvas.width,  context.canvas.height);
+                var pixel= image.data;
+                
+                //console.log(pixel[row + i]);
+                var init= 1;
+        
+                while(init < context.canvas.height){
+                    for(var j = 0; j < 5; j++)
+                    {
+                        var row = (init + j) * context.canvas.width * 4;
+                        for(var i = 0; i < context.canvas.width * 4; i += 4)
+                        {
+                            pixel[row + i]      = 220; //red
+                            pixel[row + i + 1]	= 26; //green
+                            pixel[row + i + 2]  = 26; //blue
+                        }//console.log(pixel[row + i]);
+                    }
+                    init += 15;
+                }
+        
+                context.putImageData(image, 0, 0, xValue, yValue, wValue, hValue);
+            }
+        }
+    }
+    </script>
+    <script>
+        $('#my-color-picker').jColorPicker();
+        $(".jcp-btn").click(function(){
+            // $(".jcp-visible").css('display','block');
+            console.log(document.getElementsByName("jcp-color-preview :input").value);
+            document.getElementById("RValue").value=document.getElementsByName("input-r")[0].value;
+            document.getElementById("GValue").value=document.getElementsByName("input-g")[0].value;
+            document.getElementById("BValue").value=document.getElementsByName("input-b")[0].value;
+            // document.getElementById("HEXValue").value=document.getElementsByName(".jcp-color-preview input").value;
+        })
+        </script>
+
+            <script>
+        // $("#myCanvas").click(function(){
+        //     console.log("clicked");
+        //     selectPixel(this,event);
+        // })
+
+    var selectPixel = function ($this,event){
+        console.log(event.offsetX,event.offsetY);
+        getImageData(event.offsetX,event.offsetY);
+        //document.getElementById("clickedPixelValuex").value=event.offsetX;
+        //document.getElementById("clickedPixelValuey").value=event.offsetY;
+
+    }
+    var getImageData = function (x,y) {
+      var canvas = document.getElementById("myCanvas");
+      var context = canvas.getContext("2d");
+      data = context.getImageData(x, y, 1, 1);
+      //returns rgba()
+      console.log(data);
+      context.rect(20,20,15,10);
+context.stroke();
+    }
+
+
+      button.addEventListener("click", init, false);
+
+      function init()
+      {
+        var canvas = document.getElementById("myCanvas");
+        canvas.addEventListener("mousedown", getPosition, false);
+      }
+
+      function getPosition(event)
+      {
+        var x = new Number();
+        var y = new Number();
+        var canvas = document.getElementById("myCanvas");
+        var context = canvas.getContext("2d");
+        if (event.x != undefined && event.y != undefined)
+        {
+          x = event.x;
+          y = event.y;
+        }
+        else // Firefox method to get the position
+        {
+          x = event.clientX + document.body.scrollLeft +
+              document.documentElement.scrollLeft;
+          y = event.clientY + document.body.scrollTop +
+              document.documentElement.scrollTop;
+        }
+
+        x -= canvas.offsetLeft;
+        y -= canvas.offsetTop;
+        // context.rect(20,20,15,10);
+        // context.stroke();
+context.beginPath();
+context.arc(100, 75, 50, 0, 2 * Math.PI);
+context.stroke();
+        alert("x: " + x + "  y: " + y);
+      }
+
+    </script>
+</html>
